@@ -43,6 +43,25 @@ display(df_explode_product)
 df_explode_base = df_explode_product.select("*",posexplode("Product basePrice").alias("base_position","base_position_value"))
 display(df_explode_base)
 
+# Databricks notebook source
+# MAGIC %run "/Users/shilpa.vijayjoshi@diggibyte.com/Json_Explode Assigmnet"
+
 # COMMAND ----------
+
+# DBTITLE 1,Condition check
+condition = ((df_explode_base.final_position == df_explode_base.product_position) & (df_explode_base.product_position == df_explode_base.base_position))
+
+# COMMAND ----------
+
+df1 =df_explode_base.filter(condition)
+
+# COMMAND ----------
+
+# DBTITLE 1,Final Cleaned DF
+df_cleaned = df1.withColumnRenamed("SKU/PNC","PNC number")
+display(df_cleaned)
+
+# COMMAND ----------
+
 
 
